@@ -94,35 +94,25 @@ const commetCollector = new CommentCollector();
 commetCollector.addEventListener('collect', ({ detail: comment }) => {
   switch (comment.type) {
     case 'comment':
-      showComment(comment.text);
+      commentList.insertAdjacentHTML('beforeend', `
+        <li class="comment">
+          <span class="time">${timeElement.textContent}</span>
+          <span class="text">${sanitize(comment.text)}</span>
+        </li>
+      `);
       break;
     case 'officialComment':
-      showOfficialComment(comment.text);
+      commentList.insertAdjacentHTML('beforeend', `
+        <li class="comment staff">
+          <span class="time">${timeElement.textContent}</span>
+          <span class="text">${comment.text}</span>
+        </li>
+      `);
       break;
   }
+
+  commentList.scrollTop = commentList.scrollHeight;
 });
-
-function showComment(comment) {
-  commentList.insertAdjacentHTML('beforeend', `
-    <li class="comment">
-      <span class="time">${timeElement.textContent}</span>
-      <span class="text">${sanitize(comment)}</span>
-    </li>
-  `);
-
-  commentList.scrollTop = commentList.scrollHeight;
-}
-
-function showOfficialComment(officialComment) {
-  commentList.insertAdjacentHTML('beforeend', `
-    <li class="comment staff">
-      <span class="time">${timeElement.textContent}</span>
-      <span class="text">${officialComment}</span>
-    </li>
-  `);
-
-  commentList.scrollTop = commentList.scrollHeight;
-}
 
 function sanitize(text) {
   const element = document.createElement('div');
