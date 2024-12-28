@@ -35,7 +35,7 @@ positionSelect.addEventListener('change', (event) => {
 
 // ---------- コメントを取得して表示する ----------
 
-class CommentCollector extends EventTarget {
+const commentCollector = new (class extends EventTarget {
   collection = [];
 
   constructor() {
@@ -87,9 +87,7 @@ class CommentCollector extends EventTarget {
       childList: true
     });
   }
-}
-
-const commentCollector = new CommentCollector();
+})();
 
 commentCollector.addEventListener('collect', ({ detail: comment }) => {
   switch (comment.type) {
