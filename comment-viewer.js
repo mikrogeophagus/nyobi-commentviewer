@@ -89,9 +89,9 @@ class CommentCollector extends EventTarget {
   }
 }
 
-const commetCollector = new CommentCollector();
+const commentCollector = new CommentCollector();
 
-commetCollector.addEventListener('collect', ({ detail: comment }) => {
+commentCollector.addEventListener('collect', ({ detail: comment }) => {
   switch (comment.type) {
     case 'comment':
       commentList.insertAdjacentHTML('beforeend', `
