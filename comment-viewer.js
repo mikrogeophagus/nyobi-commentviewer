@@ -4,23 +4,25 @@ const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]
 const asideElement = document.querySelector('aside');
 const timeElement = document.querySelector('time');
 
-// デフォルトでは動画プレイヤーの下に配置する
-videoPlayer.parentElement.parentElement.insertAdjacentHTML('beforeend', `
-  <div id="comment-panel">
-    <ul id="comment-list" class="comment-list"></ul>
-    <div class="comment-toolbar">
-      <label for="position-select">表示位置</label>
-      <select id="position-select">
-        <option value="top-right">右上</option>
-        <option value="bottom-left" selected>左下</option>
-      </select>
-    </div>
+const commentPanel = html`<div id="comment-panel"></div>`;
+const commentList = html`<ul id="comment-list" class="comment-list"></ul>`;
+const commentToolbar = html`
+  <div class="comment-toolbar">
+    <label for="position-select">表示位置</label>
   </div>
-`);
+`;
+const positionSelect = html`
+  <select id="position-select">
+    <option value="top-right">右上</option>
+    <option value="bottom-left" selected>左下</option>
+  </select>
+`;
 
-const commentPanel = document.querySelector('#comment-panel');
-const commentList = commentPanel.querySelector('#comment-list');
-const positionSelect = commentPanel.querySelector('#position-select');
+commentToolbar.append(positionSelect);
+commentPanel.append(commentList, commentToolbar);
+
+// デフォルトでは動画プレイヤーの下に配置する
+videoPlayer.parentElement.parentElement.insertAdjacentElement('beforeend', commentPanel);
 
 // 表示位置の切り替え
 positionSelect.addEventListener('change', (event) => {
@@ -92,15 +94,15 @@ const commentCollector = new (class extends EventTarget {
 commentCollector.addEventListener('collect', ({ detail: comment }) => {
   switch (comment.type) {
     case 'comment':
-      commentList.insertAdjacentHTML('beforeend', `
+      commentList.insertAdjacentElement('beforeend', html`
         <li class="comment">
           <span class="time">${timeElement.textContent}</span>
-          <span class="text">${sanitize(comment.text)}</span>
+          <span class="text">${comment.text}</span>
         </li>
       `);
       break;
     case 'officialComment':
-      commentList.insertAdjacentHTML('beforeend', `
+      commentList.insertAdjacentElement('beforeend', html_unsafe`
         <li class="comment staff">
           <span class="time">${timeElement.textContent}</span>
           <span class="text">${comment.text}</span>
@@ -112,8 +114,45 @@ commentCollector.addEventListener('collect', ({ detail: comment }) => {
   commentList.scrollTop = commentList.scrollHeight;
 });
 
-function sanitize(text) {
-  const element = document.createElement('div');
-  element.innerText = text;
-  return element.innerHTML;
+/**
+ * HTML の文字列をもとに要素を生成するタグ関数  
+ * トップレベルの要素は 1 つまでとする
+ * 
+ * @param {TemplateStringsArray} strings - HTML 文字列
+ * @param {...any} values - 埋め込み式の値
+ * @returns {?Element} - HTML 要素
+ */
+function html_unsafe(strings, ...values) {
+  const template = document.createElement('template');
+  template.innerHTML = String.raw({ raw: strings }, ...values);
+  return template.content.firstElementChild;
+}
+
+/**
+ * HTML の文字列をもとに要素を生成するタグ関数  
+ * 埋め込み式の値が文字列の場合はエスケープする
+ * 
+ * @param {TemplateStringsArray} strings - HTML 文字列
+ * @param {...any} values - 埋め込み式の値
+ * @returns {?Element} - HTML 要素
+ */
+function html(strings, ...values) {
+  return html_unsafe(strings, ...values.map((value) => {
+    return typeof value === 'string' ? escapeHtml(value) : value;
+  }));
+}
+
+/**
+ * HTML の特殊文字をエスケープする関数
+ * 
+ * @param {string} string - エスケープする文字列
+ * @returns {string} - エスケープした文字列
+ */
+function escapeHtml(string) {
+  return string
+    .replace(/&/g, '&amp;')
+    .replace(/'/g, '&apos;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
