@@ -5,7 +5,7 @@ const moduleURL = chrome.runtime.getURL('modules/helpers/dom.js');
 import(moduleURL).then(({ waitForSelector }) => {
   Promise.all([
     waitForSelector('video'),
-    waitForSelector('canvas')
+    waitForSelector('canvas'),
   ]).then(() => {
     const link = document.createElement('link');
     link.setAttribute('href', chrome.runtime.getURL('comment-viewer.css'));
@@ -21,7 +21,7 @@ import(moduleURL).then(({ waitForSelector }) => {
     if (error.name === 'TimeoutError') {
       console.log(
         '動画またはコメントが見つかりませんでした。コメビュの初期化を中断します。',
-        error
+        error,
       );
     } else {
       console.error(error);

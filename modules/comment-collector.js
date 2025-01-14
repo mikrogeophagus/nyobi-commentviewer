@@ -45,7 +45,7 @@ export const commentCollector = new (class extends EventTarget {
       }
     }).observe(informationBar, {
       subtree: true,
-      childList: true
+      childList: true,
     });
   }
 })();

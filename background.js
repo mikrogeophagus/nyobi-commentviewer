@@ -9,7 +9,7 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
   if (urlRegExp.test(details.url)) {
     await chrome.scripting.executeScript({
       target: { tabId: details.tabId },
-      files: [ 'script.js' ]
+      files: [ 'script.js' ],
     });
   }
 });

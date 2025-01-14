@@ -31,7 +31,7 @@ export function waitForSelector(selector, { timeoutMs = 10000 } = {}) {
       cleanup();
       reject(new DOMException(
         `${selector} で選択される要素が ${timeoutMs}ms 以内に見つかりませんでした。`,
-        'TimeoutError'
+        'TimeoutError',
       ));
     }
 
