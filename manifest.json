@@ -12,13 +12,17 @@
     "*://nnn.ed.nico/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "web_accessible_resources": [
     {
       "resources": [
         "comment-viewer.css",
-        "comment-viewer.js"
+        "comment-viewer.js",
+        "modules/comment-collector.js",
+        "modules/helpers/html.js",
+        "modules/helpers/dom.js"
       ],
       "matches": [
         "*://www.nnn.ed.nico/*",

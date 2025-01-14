@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * 授業ページの URL の正規表現
  * - https://www.nnn.ed.nico/lessons/:lesson_id
