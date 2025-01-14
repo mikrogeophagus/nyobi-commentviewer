@@ -6,11 +6,9 @@ export const commentCollector = new (class extends EventTarget {
 
     const self = this;
 
-    const video = document.querySelector('video');
-    const informationBar = document.querySelector([
-      'div[aria-label="動画プレイヤー"]',
-      'div:first-child'
-    ].join('>'));
+    const videoPlayer = document.querySelector('div[aria-label="動画プレイヤー"]');
+    const informationBar = videoPlayer.querySelector('div:first-child');
+    const video = videoPlayer.querySelector('video');
 
     // 以下、コメント取得処理
 
