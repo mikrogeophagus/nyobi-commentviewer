@@ -2,6 +2,7 @@ import { commentCollector } from './modules/comment-collector.js';
 import { html, html_unsafe } from './modules/helpers/html.js';
 
 const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]');
+const videoElement = document.querySelector('video');
 const asideElement = document.querySelector('aside');
 const timeElement = document.querySelector('time');
 
@@ -39,6 +40,24 @@ positionSelect.addEventListener('change', (event) => {
 // ---------- コメントを取得して表示する ----------
 
 commentCollector.addEventListener('collect', ({ detail: comment }) => {
+  displayComment(comment);
+});
+
+videoElement.addEventListener('seeked', () => {
+  while (commentList.firstChild) {
+    commentList.removeChild(commentList.firstChild);
+  }
+
+  commentCollector.collection = commentCollector.collection.filter((comment) => {
+    return comment.time <= videoElement.currentTime;
+  });
+
+  commentCollector.collection.forEach((comment) => {
+    displayComment(comment);
+  });
+});
+
+function displayComment(comment) {
   switch (comment.type) {
     case 'comment':
       commentList.insertAdjacentElement('beforeend', html`
@@ -59,4 +78,4 @@ commentCollector.addEventListener('collect', ({ detail: comment }) => {
   }
 
   commentList.scrollTop = commentList.scrollHeight;
-});
+}
