@@ -21,6 +21,7 @@
         "comment-viewer.css",
         "comment-viewer.js",
         "modules/comment-collector.js",
+        "modules/helpers/scroll.js",
         "modules/helpers/html.js",
         "modules/helpers/dom.js"
       ],

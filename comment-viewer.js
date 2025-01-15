@@ -1,5 +1,6 @@
 import { commentCollector } from './modules/comment-collector.js';
 import { html, html_unsafe } from './modules/helpers/html.js';
+import { isAtBottom, scrollToBottom } from './modules/helpers/scroll.js';
 
 const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]');
 const videoElement = document.querySelector('video');
@@ -60,6 +61,9 @@ videoElement.addEventListener('seeked', () => {
 });
 
 function displayComment(comment) {
+  // 既にリストの最後にスクロールしている場合のみ自動でスクロールする
+  const shouldAutoScroll = isAtBottom(commentList);
+
   switch (comment.type) {
     case 'comment':
       commentList.append(html`
@@ -79,5 +83,5 @@ function displayComment(comment) {
       break;
   }
 
-  commentList.scrollTop = commentList.scrollHeight;
+  if (shouldAutoScroll) scrollToBottom(commentList);
 }
