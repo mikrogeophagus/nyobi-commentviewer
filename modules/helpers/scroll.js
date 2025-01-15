@@ -1,7 +1,7 @@
 export function isAtBottom(scrollableElement) {
-  return scrollableElement.scrollTop + scrollableElement.clientHeight >= scrollableElement.scrollHeight;
+  return scrollableElement.scrollTop + scrollableElement.clientHeight >= scrollableElement.scrollHeight
 }
 
 export function scrollToBottom(scrollableElement) {
-  scrollableElement.scrollTop = scrollableElement.scrollHeight;
+  scrollableElement.scrollTop = scrollableElement.scrollHeight
 }

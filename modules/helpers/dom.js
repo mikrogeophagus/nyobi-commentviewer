@@ -11,33 +11,33 @@
  */
 export function waitForSelector(selector, { timeoutMs = 10000 } = {}) {
   return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(timeout, timeoutMs);
+    const timeoutId = setTimeout(timeout, timeoutMs)
 
-    const observer = new MutationObserver(check);
-    observer.observe(document, { childList: true, subtree: true });
+    const observer = new MutationObserver(check)
+    observer.observe(document, { childList: true, subtree: true })
 
-    check();
+    check()
 
     function check() {
-      const element = document.querySelector(selector);
+      const element = document.querySelector(selector)
 
       if (element) {
-        cleanup();
-        resolve(element);
+        cleanup()
+        resolve(element)
       }
     }
 
     function timeout() {
-      cleanup();
+      cleanup()
       reject(new DOMException(
         `${selector} で選択される要素が ${timeoutMs}ms 以内に見つかりませんでした。`,
         'TimeoutError',
-      ));
+      ))
     }
 
     function cleanup() {
-      clearTimeout(timeoutId);
-      observer.disconnect();
+      clearTimeout(timeoutId)
+      observer.disconnect()
     }
-  });
+  })
 }

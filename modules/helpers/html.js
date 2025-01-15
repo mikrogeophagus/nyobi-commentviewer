@@ -7,9 +7,9 @@
  * @returns {?Element} - HTML 要素
  */
 export function html_unsafe(strings, ...values) {
-  const template = document.createElement('template');
-  template.innerHTML = String.raw({ raw: strings }, ...values);
-  return template.content.firstElementChild;
+  const template = document.createElement('template')
+  template.innerHTML = String.raw({ raw: strings }, ...values)
+  return template.content.firstElementChild
 }
 
 /**
@@ -22,8 +22,8 @@ export function html_unsafe(strings, ...values) {
  */
 export function html(strings, ...values) {
   return html_unsafe(strings, ...values.map((value) => {
-    return typeof value === 'string' ? escapeHtml(value) : value;
-  }));
+    return typeof value === 'string' ? escapeHtml(value) : value
+  }))
 }
 
 /**
@@ -38,5 +38,5 @@ export function escapeHtml(string) {
     .replace(/'/g, '&apos;')
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    .replace(/>/g, '&gt;')
 }
