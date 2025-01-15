@@ -51,7 +51,7 @@ videoElement.addEventListener('seeked', () => {
   }
 
   commentCollector.collection = commentCollector.collection.filter((comment) => {
-    return comment.time <= videoElement.currentTime;
+    return comment.time < videoElement.currentTime - 3;
   });
 
   commentCollector.collection.forEach((comment) => {
