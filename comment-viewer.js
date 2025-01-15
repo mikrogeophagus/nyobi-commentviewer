@@ -24,14 +24,14 @@ commentToolbar.append(positionSelect);
 commentPanel.append(commentList, commentToolbar);
 
 // デフォルトでは動画プレイヤーの下に配置する
-videoPlayer.parentElement.parentElement.insertAdjacentElement('beforeend', commentPanel);
+videoPlayer.parentElement.parentElement.append(commentPanel);
 
 // 表示位置の切り替え
 positionSelect.addEventListener('change', (event) => {
   const position = event.target.value;
 
-  if (position === 'top-right') asideElement.insertAdjacentElement('afterbegin', commentPanel);
-  else if (position === 'bottom-left') videoPlayer.parentElement.parentElement.insertAdjacentElement('beforeend', commentPanel);
+  if (position === 'top-right') asideElement.prepend(commentPanel);
+  else if (position === 'bottom-left') videoPlayer.parentElement.parentElement.append(commentPanel);
 
   commentList.scrollTop = commentList.scrollHeight;
   commentPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -62,7 +62,7 @@ videoElement.addEventListener('seeked', () => {
 function displayComment(comment) {
   switch (comment.type) {
     case 'comment':
-      commentList.insertAdjacentElement('beforeend', html`
+      commentList.append(html`
         <li class="comment">
           <span class="time">${comment.formattedTime}</span>
           <span class="text">${comment.text}</span>
@@ -70,7 +70,7 @@ function displayComment(comment) {
       `);
       break;
     case 'officialComment':
-      commentList.insertAdjacentElement('beforeend', html_unsafe`
+      commentList.append(html_unsafe`
         <li class="comment staff">
           <span class="time">${comment.formattedTime}</span>
           <span class="text">${comment.text}</span>
