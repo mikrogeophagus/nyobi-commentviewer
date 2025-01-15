@@ -40,6 +40,8 @@ positionSelect.addEventListener('change', (event) => {
 // ---------- コメントを取得して表示する ----------
 
 commentCollector.addEventListener('collect', ({ detail: comment }) => {
+  // FIXME: 再生時間の整形が面倒で動画プレイヤーから取得している
+  comment.formattedTime = timeElement.textContent;
   displayComment(comment);
 });
 
@@ -62,7 +64,7 @@ function displayComment(comment) {
     case 'comment':
       commentList.insertAdjacentElement('beforeend', html`
         <li class="comment">
-          <span class="time">${timeElement.textContent}</span>
+          <span class="time">${comment.formattedTime}</span>
           <span class="text">${comment.text}</span>
         </li>
       `);
@@ -70,7 +72,7 @@ function displayComment(comment) {
     case 'officialComment':
       commentList.insertAdjacentElement('beforeend', html_unsafe`
         <li class="comment staff">
-          <span class="time">${timeElement.textContent}</span>
+          <span class="time">${comment.formattedTime}</span>
           <span class="text">${comment.text}</span>
         </li>
       `);
