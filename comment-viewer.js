@@ -3,6 +3,8 @@ import { html, html_unsafe } from './modules/helpers/html.js'
 import { isAtBottom, scrollToBottom } from './modules/helpers/scroll.js'
 
 const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]')
+const videoPlayerContainer = videoPlayer.parentElement.parentElement
+
 const videoElement = document.querySelector('video')
 const asideElement = document.querySelector('aside')
 const timeElement = document.querySelector('time')
@@ -25,16 +27,22 @@ commentToolbar.append(positionSelect)
 commentPanel.append(commentList, commentToolbar)
 
 // デフォルトでは動画プレイヤーの下に配置する
-videoPlayer.parentElement.parentElement.append(commentPanel)
+videoPlayerContainer.append(commentPanel)
 
 // 表示位置の切り替え
 positionSelect.addEventListener('change', (event) => {
   const position = event.target.value
 
-  if (position === 'top-right') asideElement.prepend(commentPanel)
-  else if (position === 'bottom-left') videoPlayer.parentElement.parentElement.append(commentPanel)
+  switch (position) {
+    case 'top-right':
+      asideElement.prepend(commentPanel)
+      break
+    case 'bottom-left':
+      videoPlayerContainer.append(commentPanel)
+      break
+  }
 
-  commentList.scrollTop = commentList.scrollHeight
+  scrollToBottom(commentList)
   commentPanel.scrollIntoView({ behavior: 'smooth', block: 'center' })
 })
 
