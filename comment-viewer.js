@@ -72,11 +72,19 @@ function displayComment(comment) {
   // 既にリストの最後にスクロールしている場合のみ自動でスクロールする
   const shouldAutoScroll = isAtBottom(commentList)
 
+  // TODO: イベントハンドラー属性を使用しないように変更する
+
   switch (comment.type) {
     case 'comment':
       commentList.append(html`
         <li class="comment">
-          <span class="time">${comment.formattedTime}</span>
+          <a
+            class="time"
+            onclick="document.querySelector('video').currentTime = ${comment.time}"
+            title="${comment.formattedTime} にジャンプする"
+          >
+            ${comment.formattedTime}
+          </a>
           <span class="text">${comment.text}</span>
         </li>
       `)
@@ -84,7 +92,13 @@ function displayComment(comment) {
     case 'officialComment':
       commentList.append(html_unsafe`
         <li class="comment staff">
-          <span class="time">${comment.formattedTime}</span>
+          <a
+            class="time"
+            onclick="document.querySelector('video').currentTime = ${comment.time}"
+            title="${comment.formattedTime} にジャンプする"
+          >
+            ${comment.formattedTime}
+          </a>
           <span class="text">${comment.text}</span>
         </li>
       `)
