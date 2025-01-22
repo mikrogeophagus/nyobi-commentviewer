@@ -73,7 +73,7 @@ function displayComment(comment) {
   const shouldAutoScroll = isAtBottom(commentList)
 
   const commentListItem = comment.type === 'officialComment'
-    ? html`<li class="comment staff"></li>`
+    ? html`<li class="comment official"></li>`
     : html`<li class="comment"></li>`
 
   const commentTime = html`

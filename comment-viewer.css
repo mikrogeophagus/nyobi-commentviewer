@@ -36,12 +36,12 @@
   content: '\1F4AC';
 }
 
-.comment.staff::before {
+.comment.official::before {
   /* 拡声器 */
   content: '\1F4E2';
 }
 
-.comment.staff > .text {
+.comment.official > .text {
   font-weight: bold;
 }
 
