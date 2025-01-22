@@ -72,38 +72,28 @@ function displayComment(comment) {
   // 既にリストの最後にスクロールしている場合のみ自動でスクロールする
   const shouldAutoScroll = isAtBottom(commentList)
 
-  // TODO: イベントハンドラー属性を使用しないように変更する
+  const commentListItem = comment.type === 'officialComment'
+    ? html`<li class="comment staff"></li>`
+    : html`<li class="comment"></li>`
 
-  switch (comment.type) {
-    case 'comment':
-      commentList.append(html`
-        <li class="comment">
-          <a
-            class="time"
-            onclick="document.querySelector('video').currentTime = ${comment.time}"
-            title="${comment.formattedTime} にジャンプする"
-          >
-            ${comment.formattedTime}
-          </a>
-          <span class="text">${comment.text}</span>
-        </li>
-      `)
-      break
-    case 'officialComment':
-      commentList.append(html_unsafe`
-        <li class="comment staff">
-          <a
-            class="time"
-            onclick="document.querySelector('video').currentTime = ${comment.time}"
-            title="${comment.formattedTime} にジャンプする"
-          >
-            ${comment.formattedTime}
-          </a>
-          <span class="text">${comment.text}</span>
-        </li>
-      `)
-      break
-  }
+  const commentTime = html`
+    <a
+      class="time"
+      title="${comment.formattedTime} にジャンプする"
+    >
+      ${comment.formattedTime}
+    </a>
+  `
+  commentTime.addEventListener('click', () => {
+    videoElement.currentTime = comment.time
+  })
+
+  const commentText = comment.type === 'officialComment'
+    ? html_unsafe`<span class="text">${comment.text}</span>`
+    : html`<span class="text">${comment.text}</span>`
+
+  commentListItem.append(commentTime, commentText)
+  commentList.append(commentListItem)
 
   if (shouldAutoScroll) scrollToBottom(commentList)
 }
