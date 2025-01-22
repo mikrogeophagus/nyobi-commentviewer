@@ -44,7 +44,3 @@
 .comment.official > .text {
   font-weight: bold;
 }
-
-.comment > .time {
-  color: #777;
-}
