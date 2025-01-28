@@ -1,6 +1,6 @@
 import { commentCollector } from './modules/comment-collector.js'
 import { html, html_unsafe } from './modules/helpers/html.js'
-import { isAtBottom, scrollToBottom } from './modules/helpers/scroll.js'
+import { isNearBottom, scrollToBottom } from './modules/helpers/scroll.js'
 
 const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]')
 const videoPlayerContainer = videoPlayer.parentElement.parentElement
@@ -70,7 +70,7 @@ videoElement.addEventListener('seeked', () => {
 
 function displayComment(comment) {
   // 既にリストの最後にスクロールしている場合のみ自動でスクロールする
-  const shouldAutoScroll = isAtBottom(commentList)
+  const shouldAutoScroll = isNearBottom(commentList, 50)
 
   const commentListItem = comment.type === 'officialComment'
     ? html`<li class="comment official"></li>`
