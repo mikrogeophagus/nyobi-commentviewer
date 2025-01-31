@@ -1,4 +1,4 @@
-import { commentCollector } from './modules/comment-collector.js'
+import { Comment, CommentCollector } from './modules/comment-collector.js'
 import { html, html_unsafe } from './modules/helpers/html.js'
 import { isNearBottom, scrollToBottom } from './modules/helpers/scroll.js'
 
@@ -7,7 +7,6 @@ const videoPlayerContainer = videoPlayer.parentElement.parentElement
 
 const videoElement = document.querySelector('video')
 const asideElement = document.querySelector('aside')
-const timeElement = document.querySelector('time')
 
 const commentPanel = html`<div id="comment-panel"></div>`
 const commentList = html`<ul id="comment-list" class="comment-list"></ul>`
@@ -48,9 +47,12 @@ positionSelect.addEventListener('change', (event) => {
 
 // ---------- コメントを取得して表示する ----------
 
+const commentCollector = new CommentCollector({
+  shouldCollectComments: true,
+  shouldCollectOfficialComments: true,
+})
+
 commentCollector.addEventListener('collect', ({ detail: comment }) => {
-  // FIXME: 再生時間の整形が面倒で動画プレイヤーから取得している
-  comment.formattedTime = timeElement.textContent
   displayComment(comment)
 })
 
@@ -72,7 +74,7 @@ function displayComment(comment) {
   // 既にリストの最後にスクロールしている場合のみ自動でスクロールする
   const shouldAutoScroll = isNearBottom(commentList, 50)
 
-  const commentListItem = comment.type === 'officialComment'
+  const commentListItem = comment.type === Comment.OFFICIAL_COMMENT
     ? html`<li class="comment official"></li>`
     : html`<li class="comment"></li>`
 
@@ -88,7 +90,7 @@ function displayComment(comment) {
     videoElement.currentTime = comment.time
   })
 
-  const commentText = comment.type === 'officialComment'
+  const commentText = comment.type === Comment.OFFICIAL_COMMENT
     ? html_unsafe`<span class="text">${comment.text}</span>`
     : html`<span class="text">${comment.text}</span>`
 
