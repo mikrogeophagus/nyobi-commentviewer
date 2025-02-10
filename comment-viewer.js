@@ -73,8 +73,9 @@ videoElement.addEventListener('seeked', () => {
 function displayComment(comment) {
   // 既にリストの最後にスクロールしている場合のみ自動でスクロールする
   const shouldAutoScroll = isNearBottom(commentList, 50)
+  const isOfficialComment = comment.type === Comment.OFFICIAL_COMMENT
 
-  const commentListItem = comment.type === Comment.OFFICIAL_COMMENT
+  const commentListItem = isOfficialComment
     ? html`<li class="comment official"></li>`
     : html`<li class="comment"></li>`
 
@@ -90,7 +91,7 @@ function displayComment(comment) {
     videoElement.currentTime = comment.time
   })
 
-  const commentText = comment.type === Comment.OFFICIAL_COMMENT
+  const commentText = isOfficialComment
     ? html_unsafe`<span class="text">${comment.text}</span>`
     : html`<span class="text">${comment.text}</span>`
 
