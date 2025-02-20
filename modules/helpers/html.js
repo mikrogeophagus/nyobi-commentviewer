@@ -14,7 +14,9 @@ export function html_unsafe(strings, ...values) {
 
 /**
  * HTML の文字列をもとに要素を生成するタグ関数  
- * 埋め込み式の値が文字列の場合はエスケープする
+ * トップレベルの要素は 1 つまでとする
+ * 
+ * {@linkcode html_unsafe} とは異なり、埋め込み式の値が文字列の場合は HTML の特殊文字をエスケープする
  * 
  * @param {TemplateStringsArray} strings - HTML 文字列
  * @param {...any} values - 埋め込み式の値
