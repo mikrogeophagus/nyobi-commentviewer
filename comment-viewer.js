@@ -1,6 +1,6 @@
 import { Comment, CommentCollector } from './modules/comment-collector.js'
-import { html, html_unsafe } from './modules/helpers/html.js'
-import { isNearBottom, scrollToBottom } from './modules/helpers/scroll.js'
+import { html, html_unsafe } from './modules/utils/html.js'
+import { isNearBottom, scrollToBottom } from './modules/utils/scroll.js'
 
 const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]')
 const videoPlayerContainer = videoPlayer.parentElement.parentElement

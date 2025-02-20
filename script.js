@@ -1,6 +1,6 @@
 'use strict'
 
-const moduleURL = chrome.runtime.getURL('modules/helpers/dom.js')
+const moduleURL = chrome.runtime.getURL('modules/utils/dom.js')
 
 import(moduleURL).then(({ waitForSelector }) => {
   Promise.all([
