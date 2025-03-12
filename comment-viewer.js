@@ -45,7 +45,7 @@ positionSelect.addEventListener('change', (event) => {
   commentPanel.scrollIntoView({ behavior: 'smooth', block: 'center' })
 })
 
-// ---------- コメントを取得して表示する ----------
+// MARK: - コメントを取得して表示する
 
 const commentCollector = new CommentCollector({
   shouldCollectComments: true,

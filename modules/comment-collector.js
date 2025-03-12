@@ -41,7 +41,7 @@ export class CommentCollector extends EventTarget {
   } = {}) {
     super()
 
-    // コメント取得処理
+    // MARK: コメント取得処理
     if (shouldCollectComments) {
       const texts = new Set()
 
@@ -69,7 +69,7 @@ export class CommentCollector extends EventTarget {
       )
     }
 
-    // 運営コメント取得処理
+    // MARK: 運営コメント取得処理
     if (shouldCollectOfficialComments) {
       /**
        * 子要素として `<a>` 要素のみを持つ `<div>` 要素  
